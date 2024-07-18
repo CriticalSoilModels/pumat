@@ -12,4 +12,4 @@ The following are the goals for this repo:
 
 ## Note
 
-The inspiration and the original framework for this work came from [Luis Zambrano](https://github.com/luisez1988/FRAKE).
+The inspiration and the original framework for this work came from [Luis Zambrano](https://github.com/luisez1988).
