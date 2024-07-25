@@ -2,9 +2,9 @@ import os
 import pandas as pd
 import numpy as np
 from typing import List, Dict, AnyStr
-from pyIncrementalDriver.python_files.data_classes.Mod_Driver_Setup import DriverModelSetup
-from data_classes.Mod_Driver_Results import DriverModelResults
-from pyIncrementalDriver.python_files.lib.executing_runs import run_batch_script, generate_batch_script
+from lib.Driver_Classes.Mod_Driver_Setup import DriverModelSetup
+from lib.Driver_Classes.Mod_Driver_Results import DriverModelResults
+from lib.general_functions.executing_runs import run_batch_script, generate_batch_script
 
 
 class DriverModel:

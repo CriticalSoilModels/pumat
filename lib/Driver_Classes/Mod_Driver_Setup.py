@@ -1,4 +1,4 @@
-from pyIncrementalDriver.python_files.lib.general_functions import write_line_with_inline_comment
+from lib.general_functions.general_functions import write_line_with_inline_comment
 import os
 import glob
 
@@ -75,7 +75,7 @@ class DriverModelSetup:
         num_props = len(properties)
 
         # Get the load name from the load object
-        with open(file_path, "w") as file:
+        with open(file_path, "w+") as file:
             # Write the model name
             write_line_with_inline_comment(file, self.constitutive_model_name,
                                            "Model name", num_spaces=num_spaces)
@@ -89,7 +89,7 @@ class DriverModelSetup:
                                                num_spaces = num_spaces)
 
     
-    def write_initial_conditions_file(self, init_stress, init_state_vars = [0], file_name = "initialconditions.inp",
+    def write_initial_conditions_file(self, init_stress, init_state_vars, file_name = "initialconditions.inp",
                                       num_spaces = 15, stress_names = ["s11", "s22", "s33", "s12", "s13", "s23"]):
         """
         Write the initial conditions of the file
@@ -108,7 +108,7 @@ class DriverModelSetup:
 
         file_path = os.path.join(self.folder_path, file_name)
 
-        with open(file_path, "w") as file:
+        with open(file_path, "w+") as file:
             # Write the number of stress components
             write_line_with_inline_comment(file, num_stress_vals, "ntens, tension is positive", num_spaces = num_spaces)
 
@@ -121,9 +121,9 @@ class DriverModelSetup:
             write_line_with_inline_comment(file, num_state_vars, "Number of state variables", num_spaces = num_spaces)
 
             # Write the state variables
-            for i, state_var in enumerate(init_state_vars):
+            for key, val in init_state_vars.items():
                 # Write the state parameter values
-                write_line_with_inline_comment(file, state_var, f"State var({i+1}) init value", num_spaces = num_spaces)
+                write_line_with_inline_comment(file, val, f"{key} - init value", num_spaces = num_spaces)
 
 
     def write_loads(self, file_name = "test.inp", num_spaces = 10):
@@ -138,7 +138,7 @@ class DriverModelSetup:
         file_path = os.path.join(self.folder_path, file_name)
 
         # Open the file and write the data to the file
-        with open(file_path, "w") as file:
+        with open(file_path, "w+") as file:
 
             # Write the name of the output file
             file.write(self.output_file_name + "\n")

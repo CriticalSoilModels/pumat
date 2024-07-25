@@ -1,4 +1,4 @@
-from pyIncrementalDriver.python_files.lib.general_functions import write_line_with_inline_comment, is_list_in_dict_keys
+from lib.general_functions.general_functions import write_line_with_inline_comment, is_list_in_dict_keys
 
 #TODO: Generate an abstract class that can serve as the base class for all the load types and use that to generate all of the load types
 
@@ -20,6 +20,7 @@ class PopularPath:
 
     def __str__(self) -> str:
         return_string = (
+            "Load type : Popular Path\n"
             f"Test Name: {self.test_name}\n"
             f"Load Properties: {self.input_params_dict}"
         )
@@ -146,6 +147,7 @@ class PopularPath:
         write_line_with_inline_comment(file, general_info, comment,
                                         comment_char= "#", num_spaces =num_spaces)
         
+        # Write the stress or strain increment information
         if not load_key is None:
             # Write the stress condtion
             write_line_with_inline_comment(file, self.input_params_dict[load_key], load_key,

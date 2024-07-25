@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd 
 
 def calc_mean_stress(stress):
     """
@@ -36,6 +37,15 @@ def calc_dev_strain_invariant(strain):
     """
     Calc the deviatoric strain invariant
     """
+    if isinstance(strain, pd.Series):
+        strain = strain.to_numpy()
+    elif not isinstance(strain, np.ndarray):
+        raise TypeError("Input must be a pandas Series or a NumPy array")
+    
+    # Ensure that strain is a 1D array
+    if strain.ndim != 1 or not len(strain) == 6:
+        raise ValueError("Input array must be 1D with 6 elements")
+    
     # Calc ( eps_{yy} - eps_{zz} )^{2}
     first_term = (strain[1] - strain[2])**2
 
