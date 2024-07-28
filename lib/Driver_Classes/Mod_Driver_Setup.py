@@ -11,7 +11,7 @@ class DriverModelSetup:
 
         self.num_state_params = None
         self.load_list = []             # Allow for multiple loads to be stored
-
+        self.num_loads = 0              # counter to keep track of the number of loads
     def __str__(self):
         """
         prints information about the object when the object is inserted
@@ -19,7 +19,8 @@ class DriverModelSetup:
         """
 
         return_string = (f"Constitutive model name: {self.constitutive_model_name}\n"
-                         f"Folder path: {self.folder_path}"
+                         f"Folder path: {self.folder_path}\n"
+                         f"Number of stored loads: {self.num_loads}\n"
                          )
         
         return return_string
@@ -39,18 +40,24 @@ class DriverModelSetup:
                 except OSError as e:
                     print(f"Error: {file_path} : {e.strerror}")
 
-    def store_loads(self, load_object):
+    def store_loads(self, new_loads):
         """
         Store the load in the setup
         """
         
-        # # If the load isn't a load object then
-        # if not isinstance(load_object, list):
-        #     # Mke the load into a list
-        #     load_object = [load_object]
+        # If the load isn't a load object then
+        if not isinstance(new_loads, list):
+            # Mke the load into a list
+            new_load_list = [new_loads]
+        else:
+            # Already a list
+            new_load_list = new_loads
 
         # Append the load(s) to the list
-        self.load_list.append(load_object)
+        self.load_list = self.load_list + new_load_list
+
+        # Store the number of loads
+        self.num_loads = len(self.load_list)
 
     def delete_all_loads(self):
         """
