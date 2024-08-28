@@ -38,16 +38,15 @@ class DriverModel:
         # and the setup
         return return_string
 
-    def run_model(self):
+    def run_model(self, batch_file_name = "run_model.bat"):
         """
         Runs the incremental driver test
         """
 
-        batch_file_name = "run_model.bat"
-        
         # Generate the batch script
         generate_batch_script(self.folder_path, self.inc_driver_exe_path, batch_file_name=batch_file_name)
-        
+
+        # Get the path to the batch file
         batch_file_path = os.path.join(self.folder_path, batch_file_name)
 
         # Run the model
