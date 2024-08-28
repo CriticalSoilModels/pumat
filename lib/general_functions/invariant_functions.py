@@ -62,12 +62,12 @@ def calc_dev_strain_invariant(strain):
 
     return eps_q
 
-def calc_volumetric_strain_invariant(strain):
+def calc_volumetric_strain_invariant(stran):
     """
     Calc the volumetric strain invariant
     """
     # Get the first three components
-    eps_p = np.sum( strain[0:3] )
+    eps_p = np.sum( stran[0:3] )
     return eps_p
 
 
