@@ -77,6 +77,9 @@ class DriverModelSetup:
             num_spaces: Number of spaces betwe
         """
         
+        # Store the properties
+        self.properties = properties
+        
         file_path = os.path.join(self.folder_path, params_file_name)
         
         num_props = len(properties)

@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 
 def generate_batch_script(model_folder, exe_path, batch_file_name = "run_model.bat", include_cd = False, batch_file_folder = None):
     """
@@ -44,10 +45,18 @@ def generate_batch_script(model_folder, exe_path, batch_file_name = "run_model.b
     if include_cd:
         cd_str = "cd \"{}\"".format(model_folder)
 
-    # Make the string that will be written to the file
-    batch_str = cd_str + "call \"{}\"".format(exe_path)
+    if sys.platform.startswith('win'):
+        # Write the string for windows computers 
+        # Make the string that will be written to the file
+        batch_str = cd_str + "call \"{}\"".format(exe_path)
+    
+    else:
+        # Linux computers need to have the bang for the     
+        # Create the file and open it in write mode
+        bang_str = "#!/bin/bash"
 
-    # Create the file and open it in write mode
+        batch_str = bang_str + "\n" + exe_path 
+
     with open(batch_script_path, "w") as f:
         # write the string to the batch file
         f.write(batch_str)
@@ -71,6 +80,10 @@ def run_batch_script(batch_script_path, flag_print_Blog = False):
     # Set the working directory to where the batch file is located
     working_directory = os.path.dirname(batch_script_path)
 
+    # if on linux need to change the batch file into execute mode
+    if os.name == "posix":
+        os.system(f'chmod +x {batch_script_path}')
+        
     try:
         # Execute the batch file, capturing both stdout and stderr
         result = subprocess.run(batch_script_path, check=True, shell=True, cwd=working_directory, capture_output=True, text=True)
@@ -81,6 +94,7 @@ def run_batch_script(batch_script_path, flag_print_Blog = False):
         if flag_print_Blog:
             print("Output:")
             print(result.stdout)
+
     except subprocess.CalledProcessError as e:
         # Print error message and captured stderr
         print(f"An error occurred while executing the batch file: {e}")

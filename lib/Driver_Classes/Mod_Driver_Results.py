@@ -214,15 +214,16 @@ class DriverModelResults:
         axs.set_xlabel(r"Volumetric strain invariant, $\epsilon_{p}$")
         axs.set_ylabel(r"Deviatoric strain invar, $\epsilon_{q}$")
 
-    def quick_quad_plot(self, figsize = (10,10), axial_strain_id = "stran(1)",
+    def quick_quad_plot(self, axs = None, figsize = (10,10), axial_strain_id = "stran(1)",
                         stress_units = "kPa", strain_units = "-",
-                        compression_pos = True):
+                        compression_pos = True, legend = False, **kwargs):
         """
         Make the quad plot that is really helpful for visualizing soil
         """
 
-        # Make the figure and axs
-        fig, axs = plt.subplots(nrows = 2, ncols = 2, figsize = figsize)
+        # Make the figure and axs if no axs is passed in
+        if axs is None:
+            fig, axs = plt.subplots(nrows = 2, ncols = 2, figsize = figsize)
 
         if compression_pos:
             # flip the sign of the values
@@ -238,36 +239,48 @@ class DriverModelResults:
 
 
         # Make the q vs. axial strain \epsilon_{a}
-        axs[0, 0].plot(axial_strain, q)
+        axs[0, 0].plot(axial_strain, q, **kwargs)
 
         # Format plot
         axs[0,0].set_title(r"q vs. $\epsilon_{a}$")
         axs[0,0].set_xlabel(r"$\epsilon_{a}$ " + f"[{strain_units}]")
         axs[0,0].set_ylabel(f"q [{stress_units}]")
+        
+        if legend:
+            axs[0,0].legend()
 
         # Make the q vs. p plot
-        axs[0, 1].plot(mean_stress, q)
+        axs[0, 1].plot(mean_stress, q, **kwargs)
 
         # Format the plot
         axs[0, 1].set_title(r"q vs. p")
         axs[0, 1].set_xlabel(f"p [{stress_units}]")
         axs[0, 1].set_ylabel(f"q [{stress_units}]")
 
+        if legend:
+            axs[0, 1].legend()
+
         # Make the \epislon_{v} vs \epsilon_{a} plot
-        axs[1, 0].plot(axial_strain, vol_strain)
+        axs[1, 0].plot(axial_strain, vol_strain, **kwargs)
         
         # Format the plot
         axs[1, 0].set_title(r"$\epsilon_{v}$ vs. $\epsilon_{a}$")
         axs[1, 0].set_xlabel(r"$\epsilon_{a}$" +  f"[{strain_units}]")
         axs[1, 0].set_ylabel(r"$\epsilon_{v}$" +  f"[{strain_units}]")
 
+        if legend:
+            axs[1, 0].legend()
+
         # Make the \episilon_{v} vs. p plot
-        axs[1, 1].plot(mean_stress, vol_strain)
+        axs[1, 1].plot(mean_stress, vol_strain, **kwargs)
 
         # Format the plots
         axs[1, 1].set_title(r"$\epsilon_{v}$ vs. p")
         axs[1, 1].set_xlabel(f"p [{stress_units}]")
         axs[1, 1].set_ylabel(r"$\epsilon_{v}$" +  f"[{strain_units}]")
+
+        if legend:
+            axs[1, 1].legend()
 
         # Help make the plots not overlap
         plt.tight_layout()

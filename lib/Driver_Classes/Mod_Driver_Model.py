@@ -32,7 +32,7 @@ class DriverModel:
         inside of a print() function
         """
 
-        return_string = ("Put something here")
+        return_string = (f"Constitutive model name: {self.setup.constitutive_model_name}")
 
         # Figure out a way to combine the output of the results 
         # and the setup
